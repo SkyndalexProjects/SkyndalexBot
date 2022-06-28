@@ -1,0 +1,63 @@
+{
+  "dependencies": {
+    "@datadog/datadog-api-client": "^1.0.0-beta.9",
+    "@discordjs/builders": "^0.15.0",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "@haileybot/captcha-generator": "^1.7.0",
+    "axios": "^0.24.0",
+    "body-parser": "^1.19.1",
+    "btoa": "^1.2.1",
+    "datadog-metrics": "^0.9.3",
+    "dayjs": "^1.10.7",
+    "discord.js": "^13.7.0",
+    "dogapi": "^2.8.4",
+    "dotenv": "^16.0.1",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "express-session": "^1.17.3",
+    "express-vue": "^5.16.0",
+    "figlet": "^1.5.2",
+    "hastebin": "^0.2.1",
+    "i": "^0.3.7",
+    "memorystore": "^1.6.7",
+    "moment": "^2.29.1",
+    "node-fetch": "^2.6.6",
+    "node-html-parser": "^4.1.5",
+    "node-os-utils": "^1.3.6",
+    "npm": "^8.7.0",
+    "os": "^0.1.2",
+    "passport": "^0.4.1",
+    "passport-discord": "^0.1.4",
+    "path": "^0.12.7",
+    "picocolors": "^1.0.0",
+    "rethinkdb": "^2.4.2",
+    "trello": "^0.11.0",
+    "twitter": "^1.7.1",
+    "undici": "^5.4.0",
+    "url": "^0.11.0",
+    "vue": "^2.6.14"
+  },
+  "name": "skyndalex",
+  "description": "Work In Progress",
+  "version": "1.0 BETA",
+  "main": "src/slash.js",
+  "scripts": {
+    "test": "node src/slash.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Korrumz2PL/krivebot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Korrumz2PL/krivebot/issues"
+  },
+  "homepage": "https://github.com/Korrumz2PL/krivebot#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.16.0",
+    "prettier": "2.6.2"
+  }
+}

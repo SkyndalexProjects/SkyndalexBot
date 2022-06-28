@@ -1,0 +1,9 @@
+node_modules
+src/config.json
+rethinkdb-2.3.6
+.idea
+src/interactions/slashcommands/commandKeys
+src/.env
+rethinkdb
+rethinkdb-2.4.x
+docs

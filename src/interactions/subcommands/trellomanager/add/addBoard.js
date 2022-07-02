@@ -1,4 +1,3 @@
-const { SlashCommandAssertions } = require("@discordjs/builders");
 const { Modal, MessageActionRow, TextInputComponent, MessageButton, MessageEmbed } = require("discord.js");
 module.exports = async (client, interaction) => {
     const addBoardModal = new Modal()

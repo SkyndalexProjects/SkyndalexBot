@@ -8,7 +8,7 @@ const addBoardModalComponent_NAME = new TextInputComponent()
     .setStyle("SHORT")
     .setRequired(true)
     .setPlaceholder("Board Name")
-    .setMaxLength(100)
+    .setMaxLength(100) // test
     .setCustomId("addBoard_name")
     .setLabel("Board name")
 

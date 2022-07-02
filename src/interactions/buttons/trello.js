@@ -51,9 +51,14 @@ exports.run = async (client, interaction) => {
             });
             const addedAttachmentToCard = await addAttachmentToCard.json()
 
-           // console.log(addedAttachmentToCard)
+           console.log(addedAttachmentToCard)
 
-            await interaction.reply("OK")
+           const embed = new MessageEmbed()
+           .setDescription(`Successfully added attachment.`)
+           .addField(`Link`, String(`[\`Click me!\`](https://trello.com/1/cards/6262f7bd21ef134036b8e19d/attachments/62bc60798cafde3bfcc7dcaa/download/295120f02173574dfe9bd96315e318fb.png')`))
+           .setThumbnail(imageURL)
+           .setColor("DARK_BUT_NOT_BLACK")
+           await interaction.update({ embeds: [embed] })
             break;
         case "board_add_confirm":
             if (interaction.message.interaction.user.id !== interaction.user.id) return interaction.reply({ content: "It's not your button!", ephemeral: true })

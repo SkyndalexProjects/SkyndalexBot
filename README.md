@@ -30,3 +30,4 @@ Please note that the repository is constantly under development. I do not consid
 cd src
 node deploy.js
 ```
+**There are many "random errors" in this code, which will be fixed before the v1.0 release**

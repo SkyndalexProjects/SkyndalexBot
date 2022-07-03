@@ -79,8 +79,6 @@ exports.run = async (client, interaction) => {
 
             break;
         case "add_checklist_confirm":
-            if (interaction.message.user.id !== interaction.user.id) return interaction.reply({ content: "It's not your button!", ephemeral: true })
-
             let addChecklistString = interaction.message.embeds[0];
 
             let cardID2 = addChecklistString.fields[0].value;
@@ -113,6 +111,44 @@ exports.run = async (client, interaction) => {
                 .setDescription(`\`[${addedComment.data.text}]\` successfully added comment to card **${addedComment.data.card.name}**`)
                 .setColor("DARK_BUT_NOT_BLACK")
             interaction.reply({ embeds: [addedCommentSuccess] })
+            break;
+        case "add_item_confirm":
+            let addItemChecklistID = interaction.message.embeds[0];
+            let addItemChecklistItemName = interaction.message.embeds[0];
+
+            let addItemChecklistIDV = addItemChecklistID.fields[0].value;
+            let addItemChecklistItemNameV = addItemChecklistItemName.fields[1].value;
+
+            const addItem = await fetch(`https://api.trello.com/1/checklists/${addItemChecklistIDV}/checkItems?name=${addItemChecklistItemNameV}&key=${db.key}&token=${db.token}`,
+                { method: "POST" }
+            )
+            const addedItem = await addItem.json()
+            console.log(addedItem)
+
+            let addItemSuccess = new MessageEmbed()
+                .setDescription(`\`[${addedItem.name}]\` successfully added item to checklist **${addedItem.id}**`)
+                .setColor("DARK_BUT_NOT_BLACK")
+            interaction.reply({ embeds: [addItemSuccess] })
+            break;
+        case "add_label_to_board_confirm":
+            let addLabelToBoardName = interaction.message.embeds[0];
+            let addLabelToBoardColor = interaction.message.embeds[0];
+            let addLabelToBoardBoardId = interaction.message.embeds[0]
+
+            let addLabelToBoardNameV = addLabelToBoardName.fields[0].value;
+            let addLabelToBoardColorV = addLabelToBoardColor.fields[1].value;
+            let addLabelToBoardBoardIDV = addLabelToBoardBoardId.fields[2].value;
+
+            const addLabelToBoard = await fetch(`https://api.trello.com/1/labels?name=${addLabelToBoardNameV}&color=${addLabelToBoardColorV}&idBoard=${addLabelToBoardBoardIDV}&key=${db.key}&token=${db.token}`,
+                { method: "POST" }
+            )
+            const addedLabel = await addLabelToBoard.json()
+            console.log(addedLabel)
+
+            let addLabel = new MessageEmbed()
+                .setDescription(`\`[${addedLabel.name}]\` added label on board **${addedLabel.idBoard}** (with color: ${addedLabel.color})`)
+                .setColor("DARK_BUT_NOT_BLACK")
+            interaction.reply({ embeds: [addLabel] })
             break;
 
     }

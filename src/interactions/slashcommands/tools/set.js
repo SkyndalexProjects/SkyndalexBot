@@ -1,43 +1,44 @@
-
+const { MessageActionRow, MessageSelectMenu, MessageEmbed} = require("discord.js")
 const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("set")
-        .setDescription("Settings")
-        .addSubcommand(subcommand =>
-            subcommand
-                .setName("channels")
-                .setDescription("Channels settings")
-                .addChannelOption(option => option.setName("broadcastchannel").setDescription("Broadcast channel"))
-                .addChannelOption(option => option.setName("suggestionschannel").setDescription("Suggestions channel"))
-                .addChannelOption(option => option.setName("complaintschannel").setDescription("Complaint channel"))
-                .addChannelOption(option => option.setName("imageschannel").setDescription("Images channel"))
-                .addChannelOption(option => option.setName("welcomechannel").setDescription("Welcome channel"))
-                .addChannelOption(option => option.setName("goodbyechannel").setDescription("Goodbye channel"))
-                .addChannelOption(option => option.setName("modlog").setDescription("Modlog channel")),
-        )
-        .addSubcommand(subcommand =>
-            subcommand
-                .setName("roles")
-                .setDescription("Roles settings")
-                .addRoleOption(option => option.setName("moderator").setDescription("Moderator role"))
-                .addRoleOption(option => option.setName("muted").setDescription("Muted role"))
-                .addRoleOption(option => option.setName("user").setDescription("User role"))
-                .addRoleOption(option => option.setName("auto").setDescription("Auto role"))
-        ),
+        .setDescription("Settings"),
     async execute(client, interaction) {
-        const data = interaction.options._hoistedOptions.map(x => x.value)
-        console.log(data)
+        const channels = new MessageActionRow()
+            .addComponents(
+                new MessageSelectMenu()
+                    .setCustomId("channels_settings")
+                    .setPlaceholder("Channels settings")
+                    .addOptions([
+                        { label: `📣 Broadcasts`, description: "Broadcast channel", value: "broadcast_channel"},
+                        { label: `💡 Suggestions`, description: "Suggestions channel", value: "suggestions_channel"},
+                        { label: `🚫 Complaints`, description: "Complaints channel", value: "complaints_channel"},
+                        { label: `🖼️ Images`, description: "Images channel", value: "images_channel"},
+                        { label: `👋  Welcomes`, description: "Suggestions channel", value: "welcome_channel"},
+                        { label: `✈️ ModLog`, description: "ModLog channel", value: "modlog_channel"},
+                        { label: `🫰  Goodbyes`, description: "Goodbyes channel", value: "goodbye_channel"},
+                    ])
+            );
 
-        // There were problems with the switch(data) [...]. Definitely better to use ifs. I know it doesn't look interesting.
-        //
-        if (data[0]) await r.table("settings").insert({ id: interaction.guild.id, broadcastChannel: data[0]}, { conflict: "update" }).run(client.con)
-        if (data[1]) await r.table("settings").insert({ id: interaction.guild.id, suggestionsChannel: data[1]}, { conflict: "update" }).run(client.con);
-        if (data[2]) await r.table("settings").insert({ id: interaction.guild.id, complaintsChannel: data[2]}, { conflict: "update" }).run(client.con);
-        if (data[3]) await r.table("settings").insert({ id: interaction.guild.id, imagesChannel: data[3]}, { conflict: "update" }).run(client.con);
-        if (data[4]) await r.table("settings").insert({ id: interaction.guild.id, welcomeChannel: data[4]}, { conflict: "update" }).run(client.con);
-        if (data[5]) await r.table("settings").insert({ id: interaction.guild.id, goodbyeChannel: data[5]}, { conflict: "update" }).run(client.con);
-        if (data[6]) await r.table("settings").insert({ id: interaction.guild.id, modLogChannel: data[6]}, { conflict: "update" }).run(client.con);
+        const roles = new MessageActionRow()
+            .addComponents(
+                new MessageSelectMenu()
+                    .setCustomId("roles_settings")
+                    .setPlaceholder("Roles settings")
+                    .addOptions([
+                        { label: `🔨 Moderator`, description: "Moderator role", value: "moderator_role"},
+                        { label: `🔐 Muted`, description: "Muted role", value: "muted_role"},
+                        { label: `🙋 User`, description: "User role", value: "user_role"},
+                        { label: `🤖 Automatic`, description: "Automatic role", value: "automatic_role"},
+                    ])
+            );
+
+        const embed = new MessageEmbed()
+            .setDescription("Please choose option from select menus.")
+            .setColor("DARK_BLUE")
+        await interaction.reply({ embeds: [embed], components: [channels, roles] })
+
 
     }
 }

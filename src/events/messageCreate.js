@@ -7,5 +7,4 @@ module.exports = (client, message) => {
         .setColor('DARK_BUT_NOT_BLACK')
         .setTimestamp();
     if (message.content.match(prefixMention)) message.channel.send({ embeds: [mention], ephemeral: true });
-
 };

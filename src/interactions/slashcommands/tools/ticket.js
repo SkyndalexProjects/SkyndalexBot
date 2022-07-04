@@ -56,9 +56,8 @@ module.exports = {
                 const buttonsEnable = new MessageActionRow()
                     .addComponents(
                         new MessageButton()
-                            .setStyle(custom?.buttonStyle || "SUCCESS")
-                            .setLabel("\u200b \u200b TESTOWA WIADOMOŚĆ \u200b \u200b \u200b\u202f")
-                            .setDisabled(custom?.btnDisabled || false)
+                            .setStyle("SUCCESS")
+                            .setLabel("Complaints")
                             .setCustomId("enable_complaints"),
                         new MessageButton()
                             .setStyle("SUCCESS")

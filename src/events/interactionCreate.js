@@ -1,7 +1,8 @@
 const { MessageEmbed } = require('discord.js');
 const fs = require("fs");
 module.exports = async (client, interaction) => {
-    console.log(interaction.user.tag + " Success")
+    console.log(pc.yellow(`[INTERACTION USED] ${pc.green(interaction.user.tag)}`));
+
     const interactionFiles = fs.readdirSync('./interactions');
 
     for (const folder of interactionFiles) {
@@ -19,3 +20,4 @@ module.exports = async (client, interaction) => {
     if (!interaction.user.bot)
         await slashCommand.execute(client, interaction);
 };
+ // matstef ma

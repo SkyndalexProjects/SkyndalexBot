@@ -56,5 +56,5 @@ module.exports = async (client, interaction) => {
             .addField(`List ID`, `${listid}`, true)
             .setColor("BLUE")
         await interaction.reply({ embeds: [messageConfirmEmbed], components: [row] })
-    })
+    }).catch(() => null)
 }

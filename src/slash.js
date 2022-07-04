@@ -8,7 +8,7 @@ const client = new Base({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS ],
     partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
     makeCache: Options.cacheWithLimits({
-        MessageManager: 200, // This is default
+        MessageManager: 200,
         PresenceManager: 0,
         UserManager: 0,
     }),

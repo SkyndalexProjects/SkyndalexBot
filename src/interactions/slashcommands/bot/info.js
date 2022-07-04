@@ -11,10 +11,6 @@ module.exports = {
         let row = new MessageActionRow()
             .addComponents(
                 new MessageButton()
-                    .setCustomId("details_stats_button")
-                    .setLabel("Details")
-                    .setStyle("PRIMARY"),
-                new MessageButton()
                     .setCustomId("info_bug_submit")
                     .setLabel("Report bug")
                     .setStyle("DANGER"),
@@ -22,14 +18,14 @@ module.exports = {
                     .setCustomId("info_suggest_submit")
                     .setLabel("Send suggestion")
                     .setStyle("SUCCESS")
-            )
+            );
+
         let links = new MessageActionRow()
             .addComponents(
                 new MessageButton()
                     .setLabel("Documentation")
                     .setStyle("LINK")
-                    .setURL("https://docs.skyndalex.xyz")
-                    .setDisabled(true),
+                    .setURL("https://docs.skyndalex.xyz"),
                 new MessageButton()
                     .setLabel("Site")
                     .setStyle("LINK")
@@ -38,10 +34,14 @@ module.exports = {
                     .setLabel("Status")
                     .setStyle("LINK")
                     .setURL("https://status.skyndalex.xyz"),
-            )
+            );
+
         let embed = new MessageEmbed()
             .setTitle("Bot info")
-            .addField("\`Cache\`", `Guilds: ${client.guilds.cache.size}\nUsers: ${client.users.cache.size}\nChannels: ${client.channels.cache.size}\nEmojis: ${client.emojis.cache.size}`)
+            .setDescription(`🌍 Webpage: **https://skyndalex.xyz**\n📈 Full metrics: **https://stats.skyndalex.xyz**\n📕 Documentation: **https://docs.skyndalex.xyz**\n`)
+            .addField("📊 Cache statistics", `\nGuilds: ${client.guilds.cache.size}\nUsers: ${client.users.cache.size} **(Users caching disabled)**\nChannels: ${client.channels.cache.size}\nEmojis: ${client.emojis.cache.size}\n`)
+            .addField("\n✈️ System stats", `h`)
+            .setColor("BLURPLE")
         await interaction.reply({ embeds: [embed], components: [row, links] })
     }
 }

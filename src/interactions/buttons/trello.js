@@ -150,6 +150,23 @@ exports.run = async (client, interaction) => {
                 .setColor("DARK_BUT_NOT_BLACK")
             interaction.reply({ embeds: [addLabel] })
             break;
+        case "add_list_to_board_confirm":
+            let listName = interaction.message.embeds[0];
+            let boardId = interaction.message.embeds[0];
 
+            let listNameV = listName.fields[0].value;
+            let boardIdV = boardId.fields[1].value;
+
+            const addListToBoard = await fetch(`https://api.trello.com/1/lists?name=${listNameV}&idBoard=${boardIdV}&key=${db.key}&token=${db.token}`,
+                { method: "POST" }
+            )
+            const addedList = await addListToBoard.json()
+            console.log(addedList)
+
+            let addList = new MessageEmbed()
+                .setDescription(`\`[${addedList.name}]\` added list on board **${addedList.idBoard}** (list id: ${addedList.id})`)
+                .setColor("DARK_BUT_NOT_BLACK")
+            interaction.reply({ embeds: [addList] })
+            break;
     }
 }

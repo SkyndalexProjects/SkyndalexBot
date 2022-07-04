@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const fs = require("fs");
 module.exports = async (client, interaction) => {
     console.log(pc.yellow(`[INTERACTION USED] ${pc.green(interaction.user.tag)}`));
-
+    require("../../src/interactions/select menus/settings/broadcast-channel.js")(client, interaction)
     const interactionFiles = fs.readdirSync('./interactions');
 
     for (const folder of interactionFiles) {

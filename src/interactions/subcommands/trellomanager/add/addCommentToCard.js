@@ -46,5 +46,5 @@ module.exports = async (client, interaction) => {
             .addField(`Comment description`, `${commentDescription || "None"}`)
             .setColor("BLUE")
         await interaction.reply({embeds: [messageConfirmEmbed4], components: [addCommentConfirm]})
-    })
+    }).catch(() => null)
 }

@@ -55,5 +55,5 @@ module.exports = async (client, interaction) => {
             .addField(`Board description`, `${boardDescription || "None"}`)
             .setColor("BLUE")
         await interaction.reply({ embeds: [messageConfirmEmbed3], components: [boardAddConfirm] })
-    });
+    }).catch(() => null)
 }

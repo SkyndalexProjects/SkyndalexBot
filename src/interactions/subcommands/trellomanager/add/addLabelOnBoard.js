@@ -57,5 +57,5 @@ module.exports = async (client, interaction) => {
             .addField(`Board ID`, `${boardId}`)
             .setColor("BLUE")
         await interaction.reply({embeds: [messageConfirmEmbed4], components: [addLabelToBoardConfirm]})
-    })
+    }).catch(() => null)
 }

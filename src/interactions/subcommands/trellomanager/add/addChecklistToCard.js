@@ -46,5 +46,5 @@ module.exports = async (client, interaction) => {
             .addField(`Checklist name`, `${checklistName || "None"}`)
             .setColor("BLUE")
         await interaction.reply({ embeds: [messageConfirmEmbed3], components: [addChecklistConfirm] })
-    })
+    }).catch(() => null)
 }

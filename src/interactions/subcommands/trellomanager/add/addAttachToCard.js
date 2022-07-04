@@ -44,5 +44,5 @@ module.exports = async (client, interaction) => {
             .setImage(interaction.fields.getTextInputValue("cardAttachAdd_url"))
             .setColor("BLUE")
         await interaction.reply({ embeds: [messageConfirmEmbed2], components: [attachAddToCardRowConfirm] })
-    })
+    }).catch(() => null)
 }

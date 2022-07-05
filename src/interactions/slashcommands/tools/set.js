@@ -11,7 +11,7 @@ module.exports = {
                     .setCustomId("channels_settings")
                     .setPlaceholder("Channels settings")
                     .addOptions([
-                        { label: `📣 Broadcasts`, description: "Broadcast channel", value: "broadcast_channel"},
+                        { label: `📣 Broadcasts`, description: "Broadcast channel", value: `broadcast_channel`},
                         { label: `💡 Suggestions`, description: "Suggestions channel", value: "suggestions_channel"},
                         { label: `🚫 Complaints`, description: "Complaints channel", value: "complaints_channel"},
                         { label: `🖼️ Images`, description: "Images channel", value: "images_channel"},

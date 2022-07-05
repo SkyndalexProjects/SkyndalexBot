@@ -2,25 +2,34 @@ const { MessageEmbed } = require("discord.js");
 module.exports = async (client, interaction) => {
     if (!interaction.isSelectMenu() || interaction.customId !== "channels_settings" || interaction.values[0] !== "broadcast_channel") return;
 
-        const embed = new MessageEmbed()
-            .setDescription(`Please mention your announcement channel, or enter its ID`)
-            .setColor("BLURPLE")
-        await interaction.reply({ embeds: [embed] })
+    const embed = new MessageEmbed()
+        .setDescription(`Please mention your announcement channel, or enter its ID`)
+        .setColor("BLURPLE")
+    await interaction.reply({ embeds: [embed] })
 
-        let filter =  m => m.author.id === interaction.user.id;
-        const collector = interaction.channel.createMessageCollector({ filter, time: 25000 });
+    let filter =  m => m.author.id === interaction.user.id;
+    const collector = interaction.channel.createMessageCollector({ filter, time: 15000 });
 
-        collector.on('collect', async m => {
-            const channel = m.mentions.channels.first()
+    collector.on('collect', async m => {
+        const channel = m?.mentions?.channels?.first() || m?.guild?.channels?.cache?.get(m?.content)
+        if (!channel?.id) {
+            return interaction.channel.send(`${interaction.user.tag}, It's not channel!`)
+        }
 
-            const embedSuccessfully = new MessageEmbed()
-                .setDescription(`Successfully added broadcast channel to database!\nData: ${channel.name} (<#${channel.id}>) `)
-                .setColor("GREEN")
-            await interaction.editReply({ embeds: [embedSuccessfully] });
-            collector.stop()
-        })
+        await r.table("settings").insert({
+            id: interaction.guild.id,
+            broadcastChannel: channel.id,
+        }, { conflict: "update" }).run(client.con)
 
-        collector.on('end', async collected => {
-            await interaction.editReply( { content: "Your time to complete the options is over.", embeds: [] })
-        });
+        const embedSuccessfully = new MessageEmbed()
+            .setDescription(`Successfully added broadcast channel to database!\nNew value: ${channel.name} (<#${channel.id}>) `)
+            .setColor("GREEN")
+        await interaction.editReply({ embeds: [embedSuccessfully] });
+    });
+
+    collector.on('end', async collected => {
+        await interaction.editReply( { content: "Your time to complete the options is over.", embeds: [] })
+
+        collector.stop()
+    });
 }

@@ -29,7 +29,7 @@ module.exports = {
                 selectmenu.components[0].addOptions([
                     {
                         label: `📒 ${channel.name}`,
-                        description: `${channel.name}`,
+                        description: `This is "${channel.name}" channel`,
                         value: `${channel.id}`,
                     },
                 ]);

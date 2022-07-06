@@ -22,14 +22,13 @@ module.exports = async (client, interaction) => {
         }, { conflict: "update" }).run(client.con)
 
         const embedSuccessfully = new MessageEmbed()
-            .setDescription(`Successfully added broadcast channel to database!\nNew value: ${channel.name} (<#${channel.id}>) `)
+            .setDescription(`Successfully added broadcast channel to database!\nNew value: ${channel.name} (<#${channel.id}>)\nYou have a few seconds to change your channel. `)
             .setColor("GREEN")
         await interaction.editReply({ embeds: [embedSuccessfully] });
     });
 
     collector.on('end', async collected => {
         await interaction.editReply( { content: "Your time to complete the options is over.", embeds: [] })
-
         collector.stop()
     });
 }

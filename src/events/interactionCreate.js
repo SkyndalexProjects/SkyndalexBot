@@ -12,7 +12,15 @@ module.exports = async (client, interaction) => {
         }
     }
 
+    // kiedyś zrobię handler xD
+
     await require("../../src/interactions/select menus/settings/broadcast-channel.js")(client, interaction)
+    await require("../../src/interactions/select menus/settings/complaints-channel.js")(client, interaction)
+    await require("../../src/interactions/select menus/settings/goodbye-channel.js")(client, interaction)
+    await require("../../src/interactions/select menus/settings/images-channel.js")(client, interaction)
+    await require("../../src/interactions/select menus/settings/modlog-channel.js")(client, interaction)
+    await require("../../src/interactions/select menus/settings/suggestions-channel.js")(client, interaction)
+    await require("../../src/interactions/select menus/settings/welcome-channel.js")(client, interaction)
 
     if (!interaction.isCommand()) return;
 

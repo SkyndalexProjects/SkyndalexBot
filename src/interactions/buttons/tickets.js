@@ -1,4 +1,4 @@
-const { MessageEmbed, Modal, MessageActionRow, MessageButton, MessageSelectMenu } = require("discord.js")
+const { MessageEmbed, Modal, MessageActionRow, MessageButton, MessageSelectMenu, TextInputComponent} = require("discord.js")
 exports.run = async (client, interaction) => {
     console.log(`${pc.yellow('[MODULES]')} ${pc.green(`Used module: ${pc.red(`buttons (Ticket system)`)}`)}`);
 
@@ -8,7 +8,6 @@ exports.run = async (client, interaction) => {
     switch (interaction.customId) {
         case "enable_complaints":
             if (!table?.userRole) return interaction.reply({ content: `\`userRole\` not found in server settings! Please configure it with \`/set\` command.`,  ephemeral: true });
-
             let complaintChannel = await interaction.guild.channels.create("complaints", {
                 type: "GUILD_CATEGORY",
                 permissionOverwrites: [
@@ -156,7 +155,7 @@ exports.run = async (client, interaction) => {
             await r.table("tickets").insert({
                 id: interaction.guild.id,
                 appealEnabled: false
-            }, {conflict: "update"}).run(client.con)
+            }, { conflict: "update" }).run(client.con)
 
             let embedDisableButtonsappealsSuccess = new MessageEmbed()
                 .setTitle("Disable appeals")
@@ -165,45 +164,30 @@ exports.run = async (client, interaction) => {
             await interaction.reply({embeds: [embedDisableButtonsappealsSuccess]})
             break;
         case "send_complaints":
-            const ticketComplaintModal = new Modal({
-                customId: `ticketComplaint-${interaction.id}`,
-                title: "Send ticket",
-                components: [
-                    {
-                        type: "ACTION_ROW", components: [
-                            {type: "TEXT_INPUT", style: "PARAGRAPH", customId: "describe_complaint", label: "Describe"},
-                        ]
-                    },
-                    {
-                        type: "ACTION_ROW", components: [
-                            {
-                                type: "TEXT_INPUT",
-                                style: "PARAGRAPH",
-                                customId: "proofs_complaint",
-                                label: "Proofs (Image link, message link, etc)"
-                            },
-                        ]
-                    },
-                ]
-            })
+            const sendComplaintModal = new Modal()
+                .setTitle("Send complaint ticket")
+                .setCustomId(`ticketComplaint`)
 
-            const useModal = async (
-                sourceInteraction,
-                ticketComplaintModal,
-                timeout = 2 * 60 * 1000,
-            ) => {
-                await sourceInteraction.showModal(ticketComplaintModal);
+            const complaintTicketDescription = new TextInputComponent()
+                .setStyle("PARAGRAPH")
+                .setRequired(true)
+                .setPlaceholder("Description")
+                .setMaxLength(100) // test
+                .setCustomId("describe_complaint")
+                .setLabel("Complaint description")
 
-                return sourceInteraction
-                    .awaitModalSubmit({
-                        time: timeout,
-                        filter: (filterInteraction) =>
-                            filterInteraction.customId === `ticketComplaint-${sourceInteraction.id}`,
-                    })
-                    .catch(() => null);
-            };
+            const complaintTicketProofs = new TextInputComponent()
+                .setStyle("SHORT")
+                .setPlaceholder("Proofs")
+                .setMaxLength(100)
+                .setCustomId("proofs_complaint")
+                .setLabel("Proofs")
 
-            const modalSubmitComplaintInteraction = await useModal(interaction, ticketComplaintModal)
+            const firstActionRow = new MessageActionRow().addComponents(complaintTicketDescription)
+            const secondActionRow = new MessageActionRow().addComponents(complaintTicketProofs)
+
+            sendComplaintModal.addComponents(firstActionRow, secondActionRow)
+            await interaction.showModal(sendComplaintModal)
 
             let ticketComplaintChannelPermissions = await interaction.guild.channels.create(`complaint-${interaction.user.tag}`, {
                 parent: ticketCategories.complaintTicketChannel,
@@ -212,53 +196,56 @@ exports.run = async (client, interaction) => {
                     { id: table.moderatorRole, allow: ["VIEW_CHANNEL", "SEND_MESSAGES"] },
                     { id: table.userRole, deny: ["VIEW_CHANNEL"] },
                     { id: interaction.guild.id, deny: ["VIEW_CHANNEL"] },
-                    { id: interaction.user.id, deny: ["VIEW_CHANNEL", "SEND_MESSAGES"] }
+                    { id: interaction.user.id, allow: ["VIEW_CHANNEL", "SEND_MESSAGES"] }
                 ],
             });
 
-            let complaintComponents = new MessageActionRow()
-                .addComponents(
-                    new MessageButton()
-                        .setCustomId("archive_complaint")
-                        .setLabel("Archive")
-                        .setStyle("PRIMARY"),
-                    new MessageButton()
-                        .setCustomId("delete_complaint")
-                        .setLabel("DELETE")
-                        .setStyle("DANGER")
-                )
-            let row = new MessageActionRow()
-                .addComponents(
-                    new MessageSelectMenu()
-                        .setCustomId('select-menu-tickets-1')
-                        .setPlaceholder('Move to another category...')
-                        .setMinValues(0)
-                        .setMaxValues(1)
-                        .addOptions([
-                            { label: 'Suggestions', value: 'withoutcomplaint_suggestions', emoji: '💡', },
-                            { label: 'Mod questions', value: 'withoutcomplaint_modquestions', emoji: '❓', },
-                            { label: 'Issues', value: 'withoutcomplaint_issues', emoji: '❌', },
-                            { label: 'Appeal', value: 'withoutcomplaint_appeal', emoji: '✅' },
-                            { label: 'Complaints', value: 'complaint', emoji: '⛏️' }
-                        ]),
-                );
+            const filter = (interaction) => interaction.customId === `ticketComplaint-${interaction.id}`;
+            await interaction.awaitModalSubmit({ filter, time: 15000 }).then(async interaction => {
+                let complaintComponents = new MessageActionRow()
+                    .addComponents(
+                        new MessageButton()
+                            .setCustomId("archive_complaint")
+                            .setLabel("Archive")
+                            .setStyle("PRIMARY"),
+                        new MessageButton()
+                            .setCustomId("delete_complaint")
+                            .setLabel("DELETE")
+                            .setStyle("DANGER")
+                    )
+                let row = new MessageActionRow()
+                    .addComponents(
+                        new MessageSelectMenu()
+                            .setCustomId('select-menu-tickets-1')
+                            .setPlaceholder('Move to another category...')
+                            .setMinValues(0)
+                            .setMaxValues(1)
+                            .addOptions([
+                                { label: 'Suggestions', value: 'withoutcomplaint_suggestions', emoji: '💡', },
+                                { label: 'Mod questions', value: 'withoutcomplaint_modquestions', emoji: '❓', },
+                                { label: 'Issues', value: 'withoutcomplaint_issues', emoji: '❌', },
+                                { label: 'Appeal', value: 'withoutcomplaint_appeal', emoji: '✅' },
+                                { label: 'Complaints', value: 'complaint', emoji: '⛏️' }
+                            ]),
+                    );
 
-            let embedComplaint = new MessageEmbed()
-                .setTitle("New complaint!")
-                .setDescription(`You can add more users to ticket with command /ticket add`)
-                .addField(`Description`, String(modalSubmitComplaintInteraction.fields.getTextInputValue("describe_complaint") || "None"))
-                .addField(`Proofs`, String(modalSubmitComplaintInteraction.fields.getTextInputValue("proofs_complaint") || "None"))
-                .setFooter({ text: "Too many components in this message! Clicking May Not Work the First Time\nYou cannot move complaints into the same complaints category."})
-                .setColor("GREEN")
-            await ticketComplaintChannelPermissions.send({ embeds: [embedComplaint], components: [complaintComponents, row] }).then(m => m.pin())
+                let embedComplaint = new MessageEmbed()
+                    .setTitle("New complaint!")
+                    .setDescription(`You can add more users to ticket with command /ticket add`)
+                    .addField(`Description`, String(interaction.fields.getTextInputValue("describe_complaint") || "None"))
+                    .addField(`Proofs`, String(interaction.fields.getTextInputValue("proofs_complaint") || "None"))
+                    .setFooter({ text: "Too many components in this message! Clicking May Not Work the First Time\nYou cannot move complaints into the same complaints category."})
+                    .setColor("GREEN")
+                await ticketComplaintChannelPermissions.send({ embeds: [embedComplaint], components: [complaintComponents, row] }).then(m => m.pin())
 
-            let embedImportant = new MessageEmbed()
-                .setDescription(`**DANGER:** User is not in channel! You must first verify that his data is worthy of consideration.\nConfirm with the command: \`/ticket add ${modalSubmitComplaintInteraction.user.id}\``)
-                .setFooter({ text: `Ticket By: ${modalSubmitComplaintInteraction.user.tag}` })
-                .setColor("RED")
-            await ticketComplaintChannelPermissions.send({ embeds: [embedImportant]}).then(m => m.pin());
+                let embedImportant = new MessageEmbed()
+                    .setDescription(`**DANGER:** User is not in channel! You must first verify that his data is worthy of consideration.\nConfirm with the command: \`/ticket add ${interaction.user.id}\``)
+                    .setFooter({ text: `Ticket By: ${interaction.user.tag}` })
+                    .setColor("RED")
+                await ticketComplaintChannelPermissions.send({ embeds: [embedImportant]}).then(m => m.pin());
 
-            modalSubmitComplaintInteraction.reply("Successfully sent.")
+                await interaction.reply("Successfully sent.")
+            })
             break;
         case "archive_complaint":
             let archiveComplaintRow = new MessageActionRow()

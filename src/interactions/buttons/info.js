@@ -45,7 +45,7 @@ exports.run = async (client, interaction) => {
                 const embedSuccessfully = new MessageEmbed()
                     .setDescription(`Bug successfully sent.`)
                     .setColor("GREEN")
-                await interaction.reply({ embeds: [embedSuccessfully] })
+                await interaction.reply({ embeds: [embedSuccessfully], ephemeral: true })
             }).catch(() => null)
             break;
     }

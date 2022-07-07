@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 module.exports = async (client, interaction) => {
-    if (!interaction.isSelectMenu() || interaction.customId !== "roles_settings" || interaction.values[0] !== "moderator_role") return;
+    if (!interaction.isSelectMenu() || interaction.customId !== "roles_settings" || interaction.values[0] !== "user_role") return;
 
     const embed = new MessageEmbed()
         .setDescription(`Please mention your user role, or enter its ID`)

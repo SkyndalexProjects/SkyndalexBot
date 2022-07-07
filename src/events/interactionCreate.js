@@ -21,7 +21,14 @@ module.exports = async (client, interaction) => {
     await require("../../src/interactions/select menus/settings/modlog-channel.js")(client, interaction)
     await require("../../src/interactions/select menus/settings/suggestions-channel.js")(client, interaction)
     await require("../../src/interactions/select menus/settings/welcome-channel.js")(client, interaction)
+    await require("../../src/interactions/select menus/settings/auto-role.js")(client, interaction)
+    await require("../../src/interactions/select menus/settings/moderator-role.js")(client, interaction)
+    await require("../../src/interactions/select menus/settings/muted-role.js")(client, interaction)
+    await require("../../src/interactions/select menus/settings/user-role.js")(client, interaction)
 
+    await require("../../src/interactions/select menus/embed builders/embed.js")(client, interaction)
+
+    await require("../../src/interactions/select menus/kaczkoland/mined-blocks.js")(client, interaction)
     if (!interaction.isCommand()) return;
 
     const slashCommand = client.slashCommands.get(interaction.commandName);

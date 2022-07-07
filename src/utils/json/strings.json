@@ -10,5 +10,8 @@
   },
     "trello": {
       "NOTIFICATION_COMMAND_USE": "```ansi\n\u001B[1;32;40mType [name [cardName]] to choose your trello card name\n\nType <description [cardDescription]> to choose your trello card description```"
-    }
+    },
+  "set": {
+    "TIMED_OUT": "Your time to complete the options is over. Please type command `/set`  again."
+  }
 }

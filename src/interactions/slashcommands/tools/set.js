@@ -37,7 +37,7 @@ module.exports = {
         const embed = new MessageEmbed()
             .setDescription("Please choose option from select menus.")
             .setColor("DARK_BLUE")
-        await interaction.reply({ embeds: [embed], components: [channels, roles] })
+        await interaction.reply({ embeds: [embed], components: [channels, roles], ephemeral: true })
 
 
     }

@@ -193,15 +193,24 @@ exports.run = async (client, interaction) => {
                 parent: ticketCategories.complaintTicketChannel,
                 type: "GUILD_TEXT",
                 permissionOverwrites: [
-                    { id: table.moderatorRole, allow: ["VIEW_CHANNEL", "SEND_MESSAGES"] },
+                    { id: table.moderatorRole, allow: ["VIEW_CHANNEL", "SEND_MESSAGES" ] },
                     { id: table.userRole, deny: ["VIEW_CHANNEL"] },
                     { id: interaction.guild.id, deny: ["VIEW_CHANNEL"] },
-                    { id: interaction.user.id, allow: ["VIEW_CHANNEL", "SEND_MESSAGES"] }
                 ],
             });
 
-            const filter = (interaction) => interaction.customId === `ticketComplaint-${interaction.id}`;
+            const filter = (interaction) => interaction.customId === `ticketComplaint`;
             await interaction.awaitModalSubmit({ filter, time: 15000 }).then(async interaction => {
+                const embedSending = new MessageEmbed()
+                    .setDescription("Sending...")
+                    .setColor("YELLOW")
+
+                const embedSent = new MessageEmbed()
+                    .setDescription("Ticket successfully sent.")
+                    .setColor("BLURPLE")
+
+                await interaction.reply({ embeds: [embedSending], ephemeral: true });
+
                 let complaintComponents = new MessageActionRow()
                     .addComponents(
                         new MessageButton()
@@ -217,7 +226,7 @@ exports.run = async (client, interaction) => {
                     .addComponents(
                         new MessageSelectMenu()
                             .setCustomId('select-menu-tickets-1')
-                            .setPlaceholder('Move to another category...')
+                            .setPlaceholder('Move to another category')
                             .setMinValues(0)
                             .setMaxValues(1)
                             .addOptions([
@@ -240,12 +249,12 @@ exports.run = async (client, interaction) => {
 
                 let embedImportant = new MessageEmbed()
                     .setDescription(`**DANGER:** User is not in channel! You must first verify that his data is worthy of consideration.\nConfirm with the command: \`/ticket add ${interaction.user.id}\``)
-                    .setFooter({ text: `Ticket By: ${interaction.user.tag}` })
+                    .setFooter({ text: `Ticket By: ${interaction.user.tag} [${interaction.user.id}]` })
                     .setColor("RED")
                 await ticketComplaintChannelPermissions.send({ embeds: [embedImportant]}).then(m => m.pin());
 
-                await interaction.reply("Successfully sent.")
-            })
+                await interaction.editReply({ embeds: [embedSent], ephemeral: true})
+            }).catch(() => null)
             break;
         case "archive_complaint":
             let archiveComplaintRow = new MessageActionRow()

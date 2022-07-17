@@ -12,23 +12,8 @@ module.exports = async (client, interaction) => {
         }
     }
 
-    // kiedyś zrobię handler xD
+    await require("../../src/utils/run")(client, interaction);
 
-    await require("../../src/interactions/select menus/settings/broadcast-channel.js")(client, interaction)
-    await require("../../src/interactions/select menus/settings/complaints-channel.js")(client, interaction)
-    await require("../../src/interactions/select menus/settings/goodbye-channel.js")(client, interaction)
-    await require("../../src/interactions/select menus/settings/images-channel.js")(client, interaction)
-    await require("../../src/interactions/select menus/settings/modlog-channel.js")(client, interaction)
-    await require("../../src/interactions/select menus/settings/suggestions-channel.js")(client, interaction)
-    await require("../../src/interactions/select menus/settings/welcome-channel.js")(client, interaction)
-    await require("../../src/interactions/select menus/settings/auto-role.js")(client, interaction)
-    await require("../../src/interactions/select menus/settings/moderator-role.js")(client, interaction)
-    await require("../../src/interactions/select menus/settings/muted-role.js")(client, interaction)
-    await require("../../src/interactions/select menus/settings/user-role.js")(client, interaction)
-
-    await require("../../src/interactions/select menus/embed builders/embed.js")(client, interaction)
-
-    await require("../../src/interactions/select menus/kaczkoland/mined-blocks.js")(client, interaction)
     if (!interaction.isCommand()) return;
 
     const slashCommand = client.slashCommands.get(interaction.commandName);
@@ -36,4 +21,3 @@ module.exports = async (client, interaction) => {
     if (!interaction.user.bot)
         await slashCommand.execute(client, interaction);
 };
- // matstef ma

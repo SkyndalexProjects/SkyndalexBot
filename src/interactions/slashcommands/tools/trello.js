@@ -60,12 +60,12 @@ module.exports = {
                 .setDescription("Your trello guild settings")
                 .addStringOption(option =>
                     option
-                        .setName("suggestion-list-id")
+                        .setName("suggestionslistid")
                         .setDescription("In which list should I create user suggestion content cards?")
                 )
                 .addStringOption(option =>
                     option
-                        .setName("suggestion-checklist-id")
+                        .setName("suggestionschecklistid")
                         .setDescription("Should I add user suggestions to the task list? If so, please provide the task list ID.")
                 )
         ),
@@ -94,6 +94,23 @@ module.exports = {
 
                 if (add) return require(`../../subcommands/trellomanager/add/${add}`)(client, interaction);
                 if (get) return require(`../../subcommands/trellomanager/get/${get}`)(client, interaction);
+                break;
+            case "set":
+                if (interaction.options.getString("suggestionslistid")) {
+                    const suggestionListId = interaction.options.getString("suggestionslistid")
+
+                    await r.table("settings").insert({ id: interaction.guild.id, suggestionTrelloListId: suggestionListId }, { conflict: "update" }).run(client.con)
+
+                    await interaction.reply("Added list id.")
+                } else {
+                    if (interaction.options.getString("suggestionchecklistid")) {
+                        const suggestionChecklistID = interaction.options.getString("suggestionchecklistid")
+
+                        await r.table("settings").get(interaction.guild.id).insert({ id: interaction.guild.id, suggestionTrelloChecklistID: suggestionChecklistID }, { conflict: "update" }).run(client.con)
+
+                        await interaction.reply("Added checklist ID.")
+                    }
+                }
                 break;
         }
     }

@@ -13,8 +13,6 @@ exports.run = async (client, interaction) => {
                 .setStyle("LINK")
         )
 
-    if (!db?.key || !db?.token) return interaction.reply({ content: "You are not authorized!", components: [row], ephemeral: true });
-
     switch (interaction.customId) {
         case "trello_add_card_confirm":
             if (interaction.message.interaction.user.id !== interaction.user.id) return interaction.reply({ content: "It's not your button!", ephemeral: true })
@@ -30,7 +28,6 @@ exports.run = async (client, interaction) => {
             );
             const cardAddedData = await cardAdd.json()
 
-            // console.log(json)
 
             let embedSuccessful = new MessageEmbed()
                 .setDescription(`\`[${cardAddedData.name}]\` successfully added to trello list: **[${cardAddedData.id}](${cardAddedData.idList})**`)
@@ -38,6 +35,8 @@ exports.run = async (client, interaction) => {
             interaction.reply({ embeds: [embedSuccessful] })
             break;
         case "trello_add_attach_to_card_confirm":
+            if (!db?.key || !db?.token) return interaction.reply({ content: "You are not authorized!", components: [row], ephemeral: true });
+
             if (interaction.message.interaction.user.id !== interaction.user.id) return interaction.reply({ content: "It's not your button!", ephemeral: true })
 
             let addAttachmentToCardString = interaction.message.embeds[0]
@@ -61,6 +60,8 @@ exports.run = async (client, interaction) => {
            await interaction.update({ embeds: [embed] })
             break;
         case "board_add_confirm":
+            if (!db?.key || !db?.token) return interaction.reply({ content: "You are not authorized!", components: [row], ephemeral: true });
+
             if (interaction.message.interaction.user.id !== interaction.user.id) return interaction.reply({ content: "It's not your button!", ephemeral: true })
 
             let boardAddString = interaction.message.embeds[0];
@@ -79,6 +80,8 @@ exports.run = async (client, interaction) => {
 
             break;
         case "add_checklist_confirm":
+            if (!db?.key || !db?.token) return interaction.reply({ content: "You are not authorized!", components: [row], ephemeral: true });
+
             let addChecklistString = interaction.message.embeds[0];
 
             let cardID2 = addChecklistString.fields[0].value;
@@ -96,6 +99,8 @@ exports.run = async (client, interaction) => {
             interaction.reply({ embeds: [addedChecklistSuccess] })
             break;
         case "add_comment_confirm":
+            if (!db?.key || !db?.token) return interaction.reply({ content: "You are not authorized!", components: [row], ephemeral: true });
+
             let addCommentString = interaction.message.embeds[0];
 
             let cardID3 = addCommentString.fields[0].value;
@@ -113,6 +118,8 @@ exports.run = async (client, interaction) => {
             interaction.reply({ embeds: [addedCommentSuccess] })
             break;
         case "add_item_confirm":
+            if (!db?.key || !db?.token) return interaction.reply({ content: "You are not authorized!", components: [row], ephemeral: true });
+
             let addItemChecklistID = interaction.message.embeds[0];
             let addItemChecklistItemName = interaction.message.embeds[0];
 
@@ -131,6 +138,8 @@ exports.run = async (client, interaction) => {
             interaction.reply({ embeds: [addItemSuccess] })
             break;
         case "add_label_to_board_confirm":
+            if (!db?.key || !db?.token) return interaction.reply({ content: "You are not authorized!", components: [row], ephemeral: true });
+
             let addLabelToBoardName = interaction.message.embeds[0];
             let addLabelToBoardColor = interaction.message.embeds[0];
             let addLabelToBoardBoardId = interaction.message.embeds[0]
@@ -151,6 +160,7 @@ exports.run = async (client, interaction) => {
             interaction.reply({ embeds: [addLabel] })
             break;
         case "add_list_to_board_confirm":
+            if (!db?.key || !db?.token) return interaction.reply({ content: "You are not authorized!", components: [row], ephemeral: true });
             let listName = interaction.message.embeds[0];
             let boardId = interaction.message.embeds[0];
 

@@ -20,7 +20,6 @@ client.commands = new Collection();
 global.r = require('rethinkdb');
 global.pc = require('picocolors');
 global.hastebin = require("hastebin");
-
 require("./datadog/collectStats").run(client);
 require("./routers/app.js").run(client);
 
@@ -28,6 +27,7 @@ r.connect({ db: 'skyndalex', host: 'localhost', port: '28015', timeout: 600 },
     function (err, con) {
         if (err) console.log(err);
         client.con = con;
+
 
         console.log(pc.green(`${pc.yellow('[DATABASE]')} Connected`));
     }

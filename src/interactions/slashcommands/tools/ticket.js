@@ -25,7 +25,14 @@ module.exports = {
             subcommand
                 .setName("remove")
                 .setDescription("Remove user from ticket")
-                .addUserOption(option => option.setName("target").setDescription("Target user"))),
+                .addUserOption(option => option.setName("target").setDescription("Target user")))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName("catdelete")
+                .setDescription("Delete last 100 channels from specified category.")
+                .addStringOption(option => option.setName("categoryid").setDescription("Category ID").setRequired(true)),
+        ),
+
     async execute(client, interaction) {
         switch (interaction.options.getSubcommand()) {
             case "add":
@@ -49,6 +56,20 @@ module.exports = {
                     .setDescription(`Successfully removed member <@${u_remove.id}> from channel <#${interaction.channel.id}>.`)
                     .setColor("RED")
                 await interaction.channel.send({ embeds: [permsembed2] })
+                break;
+            case "catdelete":
+                const category = interaction.options.getString("categoryid");
+
+                const del = await interaction.guild.channels.cache.get(category)
+                await del.children.forEach(channel => channel.delete())
+
+                const channelList = []
+
+                for (let i in del.guild) {
+                    channelList.push(del.guild[i].name)
+                };
+
+                await interaction.reply(`Deleted \`${del.id.length}\` channels.\n\n\`\`\`${channelList.join(",\n")}\`\`\``)
                 break;
             case "enable":
                 let custom = await r.table("customizationSystem").get(interaction.guild.id).run(client.con);

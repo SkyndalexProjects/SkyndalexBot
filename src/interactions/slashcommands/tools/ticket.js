@@ -62,7 +62,7 @@ module.exports = {
 
                 const del = await interaction.guild.channels.cache.get(category)
                 await del.children.forEach(channel => channel.delete())
-
+                /*
                 const channelList = []
 
                 for (let i in del.guild) {
@@ -70,6 +70,7 @@ module.exports = {
                 };
 
                 await interaction.reply(`Deleted \`${del.id.length}\` channels.\n\n\`\`\`${channelList.join(",\n")}\`\`\``)
+                 */
                 break;
             case "enable":
                 let custom = await r.table("customizationSystem").get(interaction.guild.id).run(client.con);

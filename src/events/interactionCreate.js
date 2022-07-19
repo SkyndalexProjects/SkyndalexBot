@@ -2,6 +2,8 @@ const { MessageEmbed } = require('discord.js');
 const fs = require("fs");
 module.exports = async (client, interaction) => {
     console.log(pc.yellow(`[INTERACTION USED] ${pc.green(interaction.user.tag)}`));
+    // client.channels.cache.get("998635347439271976").send(`\`\`\`👤 User: ${interaction.user.tag}\n✈️ Interaction name: ${interaction.commandName || "No command was used"}\n📕 ID: ${interaction.user.id}\n📙 Guild ID: ${interaction.guild.id}\`\`\``);
+
     const interactionFiles = fs.readdirSync('./interactions');
 
     for (const folder of interactionFiles) {

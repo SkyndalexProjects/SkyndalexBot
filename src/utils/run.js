@@ -37,5 +37,6 @@ module.exports = async(client, interaction) => {
     await require("../interactions/buttons/tickets/send/sendAppeal")(client, interaction)
     await require("../interactions/buttons/tickets/send/sendQuestion")(client, interaction)
 
+    await require("../interactions/select menus/tickets/moveToSuggestions.js")(client, interaction)
     await require("../interactions/buttons/tickets/actions/addToTrello.js")(client, interaction)
 }

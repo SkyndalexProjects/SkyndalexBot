@@ -16,6 +16,7 @@ const client = new Base({
 
 client.slashCommands = new Collection();
 client.commands = new Collection();
+client.snipes = new Collection()
 
 global.r = require('rethinkdb');
 global.pc = require('picocolors');

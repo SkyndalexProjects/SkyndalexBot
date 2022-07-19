@@ -51,7 +51,6 @@ module.exports = async (client, interaction) => {
                             { label: `🔒 Close `, description: "Close this ticket ", value: `ticket_close` },
                             { label: `❌  Delete`, description: "Delete ticket ", value: `ticket_delete` },
                             { label: `↔️ Move`, description: "Move ticket to another category ", value: `move_ticket` },
-
                         ])
                 );
 

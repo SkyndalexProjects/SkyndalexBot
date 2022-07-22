@@ -3,7 +3,7 @@ const { token } = require('./config.json').discord
 const fs = require('fs');
 const Base = require('./Base.js');
 const { Collection, Options, Intents } = require('discord.js');
-const r = require('rethinkdb');
+const r = require('rethinkdb'); // Test
 const client = new Base({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS ],
     partials: ['MESSAGE', 'CHANNEL', 'REACTION'],

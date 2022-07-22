@@ -4,8 +4,17 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("snipe")
         .setDescription("Snipe message."),
+
+    /*
+    .addChannelOption(option =>
+            option
+                .setName("channel")
+                .setDescription("Channel")
+                .addChannelTypes(["GuildText"])
+     */
     async execute(client, interaction) {
-        const snipe = await client?.snipes?.get(interaction.channel.id)
+        const snipe = await client?.snipes?.get(interaction.channel.id || interaction.options.getChannel("channel"));
+
         if (!snipe) return interaction.reply({ content: "There is nothing to snipe!", ephemeral: true });
 
         const embed = new MessageEmbed()

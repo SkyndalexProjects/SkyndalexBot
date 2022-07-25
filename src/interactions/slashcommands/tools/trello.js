@@ -61,15 +61,44 @@ module.exports = {
                 .addStringOption(option =>
                     option
                         .setName("suggestionslistid")
-                        .setDescription("In which list should I create user suggestion content cards?")
+                        .setDescription("User suggestions list ID")
                 )
                 .addStringOption(option =>
                     option
                         .setName("suggestionschecklistid")
-                        .setDescription("Should I add user suggestions to the task list? If so, please provide the task list ID.")
+                        .setDescription("User suggestions checklist ID")
+                )
+                .addStringOption(option =>
+                    option
+                        .setName("appeallistid")
+                        .setDescription("User appeal list ID")
+                )
+                .addStringOption(option =>
+                    option
+                        .setName("appealchecklistid")
+                        .setDescription("User appeal checklist ID.")
+                )
+                .addStringOption(option =>
+                    option
+                        .setName("issuelistid")
+                        .setDescription("User issues list ID")
+                )
+                .addStringOption(option =>
+                    option
+                        .setName("issueschecklistid")
+                        .setDescription("User issues checklist ID.")
+                )
+                .addStringOption(option =>
+                    option
+                        .setName("complaintlistid")
+                        .setDescription("User complaints list ID")
+                )
+                .addStringOption(option =>
+                    option
+                        .setName("complaintchecklistid")
+                        .setDescription("User complaints checklist ID.")
                 )
         ),
-
     async execute(client, interaction) {
         switch (interaction.options.getSubcommand()) {
             case "auth":
@@ -96,19 +125,14 @@ module.exports = {
                 if (get) return require(`../../subcommands/trellomanager/get/${get}`)(client, interaction);
                 break;
             case "set":
-                if (interaction.options.getString("suggestionslistid")) {
-                    const suggestionListId = interaction.options.getString("suggestionslistid")
-
-                    await r.table("settings").insert({ id: interaction.guild.id, suggestionTrelloListId: suggestionListId }, { conflict: "update" }).run(client.con)
-
-                    await interaction.reply("Added list id.")
-                } else {
-                    if (interaction.options.getString("suggestionchecklistid")) {
-                        const suggestionChecklistID = interaction.options.getString("suggestionchecklistid")
-
-                        await r.table("settings").get(interaction.guild.id).insert({ id: interaction.guild.id, suggestionTrelloChecklistID: suggestionChecklistID }, { conflict: "update" }).run(client.con)
-
-                        await interaction.reply("Added checklist ID.")
+                for (let option of interaction.options.data[0].options) {
+                    switch (option.name) {
+                        case "suggestionslistid":
+                            if (interaction.options.getString("suggestionslistid")) require("../../subcommands/tickets/trelloActions/lists/addSuggestionToList")(client, interaction)
+                            break;
+                        case "suggestionschecklistid":
+                            if (interaction.options.getString("suggestionschecklistid")) require("../../subcommands/tickets/trelloActions/checklists/addSuggestionToChecklist.js")(client, interaction)
+                            break;
                     }
                 }
                 break;

@@ -5,8 +5,8 @@ const Base = require('./Base.js');
 const { Collection, Options, Intents } = require('discord.js');
 const r = require('rethinkdb');
 const client = new Base({
-    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS ],
-    partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
+    partials: ['MESSAGE', 'CHANNEL', 'REACTION' ],
     makeCache: Options.cacheWithLimits({
         MessageManager: 200,
         PresenceManager: 0,
@@ -21,8 +21,6 @@ client.snipes = new Collection()
 global.r = require('rethinkdb');
 global.pc = require('picocolors');
 global.hastebin = require("hastebin");
-require("./datadog/collectStats").run(client);
-require("./routers/app.js").run(client);
 
 r.connect({ db: 'skyndalex', host: 'localhost', port: '28015', timeout: 600 },
     function (err, con) {

@@ -7,7 +7,7 @@ router.get('/discordData', async (req, res) => {
 
     await r.table("trello").insert({ uid: req.session.user.id }, { conflict: "update" }).run(req.client.con)
 
-    return res.redirect("/trello/trello_auth")
+   // return res.redirect("/trello/trello_auth")
 })
 
 router.get('/callback', async (req, res) => {
@@ -17,7 +17,7 @@ router.get('/callback', async (req, res) => {
 
     params.set('grant_type', 'authorization_code')
     params.set('code', req.query.code)
-    params.set('redirect_uri', "http://localhost:3000/discord/callback")
+    params.set('redirect_uri', "https://localhost:3000/discord/callback")
 
     let response = await fetch('https://discord.com/api/oauth2/token', {
         method: 'POST',

@@ -50,7 +50,6 @@ module.exports = async (client, interaction) => {
                             { label: `➕ Add to trello`, description: "Add this suggestion to trello ", value: `trello_addticket` },
                             { label: `🔒 Close `, description: "Close this ticket ", value: `ticket_close` },
                             { label: `❌  Delete`, description: "Delete ticket ", value: `ticket_delete` },
-                            { label: `↔️ Move`, description: "Move ticket to another category ", value: `move_ticket` },
                         ])
                 );
 
@@ -69,6 +68,6 @@ module.exports = async (client, interaction) => {
             await ticketSuggestionChannelPermissions.send({embeds: [embedImportantSuggestion]})
 
             await interaction.reply("Successfully sent.")
-        });
+        }).catch(() => null)
     }
 }

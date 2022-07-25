@@ -1,4 +1,4 @@
-module.exports = async(client, interaction) => {
+module.exports = async(client, interaction) => {    
     await require("../../src/interactions/select menus/settings/broadcast-channel.js")(client, interaction)
     await require("../../src/interactions/select menus/settings/complaints-channel.js")(client, interaction)
     await require("../../src/interactions/select menus/settings/goodbye-channel.js")(client, interaction)
@@ -37,6 +37,5 @@ module.exports = async(client, interaction) => {
     await require("../interactions/buttons/tickets/send/sendAppeal")(client, interaction)
     await require("../interactions/buttons/tickets/send/sendQuestion")(client, interaction)
 
-    await require("../interactions/select menus/tickets/moveToSuggestions.js")(client, interaction)
     await require("../interactions/buttons/tickets/actions/addToTrello.js")(client, interaction)
 }

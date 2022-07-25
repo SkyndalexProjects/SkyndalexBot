@@ -10,9 +10,9 @@ module.exports = async (client, interaction) => {
     const embed = interaction.message.embeds[0]
     const ticketContent = embed.fields[0].value;
 
-     await fetch(`https://api.trello.com/1/cards?idList=${settings.suggestionTrelloListId}&key=${db.key}&token=${db.token}&name=${ticketContent}&desc=Added with Skyndalex bot with ${interaction.user.tag}`,
+    await fetch(`https://api.trello.com/1/cards?idList=${settings.suggestionTrelloListId}&key=${db.key}&token=${db.token}&name=${ticketContent}&desc=Added with Skyndalex bot with ${interaction.user.tag}`,
         { method: "POST" }
     );
 
     await interaction.reply({ content: `Added to trello`})
-}  
+}

@@ -41,6 +41,18 @@ module.exports = async (client, interaction) => {
 
         const filter = (interaction) => interaction.customId === `ticketComplaint`;
         await interaction.awaitModalSubmit({ filter, time: 15000 }).then(async interaction => {
+            const ticketActions = new MessageActionRow()
+                .addComponents(
+                    new MessageSelectMenu()
+                        .setCustomId("ticket_actions")
+                        .setPlaceholder("Ticket actions")
+                        .addOptions([
+                            { label: `➕ Add to trello`, description: "Add this suggestion to trello ", value: `trello_addticket` },
+                            { label: `🔒 Close `, description: "Close this ticket ", value: `ticket_close` },
+                            { label: `❌  Delete`, description: "Delete ticket ", value: `ticket_delete` },
+                        ])
+                );
+
             const embedSending = new MessageEmbed()
                 .setDescription("Sending...")
                 .setColor("YELLOW")
@@ -51,32 +63,9 @@ module.exports = async (client, interaction) => {
 
             await interaction.reply({ embeds: [embedSending], ephemeral: true });
 
-            let complaintComponents = new MessageActionRow()
-                .addComponents(
-                    new MessageButton()
-                        .setCustomId("archive_complaint")
-                        .setLabel("Archive")
-                        .setStyle("PRIMARY"),
-                    new MessageButton()
-                        .setCustomId("delete_complaint")
-                        .setLabel("DELETE")
-                        .setStyle("DANGER")
-                )
-            let row = new MessageActionRow()
-                .addComponents(
-                    new MessageSelectMenu()
-                        .setCustomId('select-menu-tickets-1')
-                        .setPlaceholder('Move to another category')
-                        .setMinValues(0)
-                        .setMaxValues(1)
-                        .addOptions([
-                            { label: 'Suggestions', value: 'withoutcomplaint_suggestions', emoji: '💡', },
-                            { label: 'Mod questions', value: 'withoutcomplaint_modquestions', emoji: '❓', },
-                            { label: 'Issues', value: 'withoutcomplaint_issues', emoji: '❌', },
-                            { label: 'Appeal', value: 'withoutcomplaint_appeal', emoji: '✅' },
-                            { label: 'Complaints', value: 'complaint', emoji: '⛏️' }
-                        ]),
-                );
+
+
+
 
             let embedComplaint = new MessageEmbed()
                 .setTitle("New complaint!")
@@ -85,7 +74,7 @@ module.exports = async (client, interaction) => {
                 .addField(`Proofs`, String(interaction.fields.getTextInputValue("proofs_complaint") || "None"))
                 .setFooter({ text: "Too many components in this message! Clicking May Not Work the First Time\nYou cannot move complaints into the same complaints category."})
                 .setColor("GREEN")
-            await ticketComplaintChannelPermissions.send({ embeds: [embedComplaint], components: [complaintComponents, row] }).then(m => m.pin())
+            await ticketComplaintChannelPermissions.send({ embeds: [embedComplaint], components: [ticketActions] }).then(m => m.pin())
 
             let embedImportant = new MessageEmbed()
                 .setDescription(`**DANGER:** User is not in channel! You must first verify that his data is worthy of consideration.\nConfirm with the command: \`/ticket add ${interaction.user.id}\``)

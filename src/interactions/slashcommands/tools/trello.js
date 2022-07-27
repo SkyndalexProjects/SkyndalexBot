@@ -128,7 +128,7 @@ module.exports = {
                 for (let option of interaction.options.data[0].options) {
                     switch (option.name) {
                         case "suggestionslistid":
-                            if (interaction.options.getString("suggestionslistid")) require("../../subcommands/tickets/trelloActions/lists/addSuggestionToList")(client, interaction)
+                            if (interaction.options.getString("suggestionslistid")) require("../../select menus/tickets/addToTrello")(client, interaction)
                             break;
                         case "suggestionschecklistid":
                             if (interaction.options.getString("suggestionschecklistid")) require("../../subcommands/tickets/trelloActions/checklists/addSuggestionToChecklist.js")(client, interaction)

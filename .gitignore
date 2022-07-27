@@ -6,4 +6,3 @@ src/interactions/slashcommands/commandKeys
 src/.env
 rethinkdb
 rethinkdb-2.4.x
-docs

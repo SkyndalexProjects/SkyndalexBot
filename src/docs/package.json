@@ -1,0 +1,19 @@
+{
+  "name": "SkyndalexDocs",
+  "version": "0.0.1",
+  "description": "Documentation for Skyndalex bot",
+  "main": "index.js",
+  "authors": {
+    "name": "Korrumz2",
+    "email": "korrumz2@gmail.com"
+  },
+  "repository": "SkyndalexProjects/SkyndalexBot/SkyndalexDocs",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}
